@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Survei - Media Sosial</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .form-section { background: white; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+        .section-title { border-left: 5px solid #1a73e8; padding-left: 15px; margin-bottom: 20px; color: #1a73e8; font-weight: 600; }
+        .required::after { content: " *"; color: red; font-weight: bold; }
+        .progress-bar-custom { height: 8px; border-radius: 10px; margin-bottom: 25px; }
+        .btn-submit { background: linear-gradient(135deg, #1a73e8, #0d47a1); border: none; padding: 12px 30px; font-size: 18px; border-radius: 30px; }
+        .btn-submit:hover { background: linear-gradient(135deg, #0d47a1, #1a73e8); }
+        .form-check, .form-label { font-weight: 500; }
+        .card-header { background: linear-gradient(135deg, #1a73e8, #0d47a1); }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-chart-line"></i> Survei Media Sosial</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tentang.html">Tentang Survei</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="form.html">Form Survei</a></li>
+                    <li class="nav-item"><a class="nav-link" href="statistik.html">Hasil Statistik</a></li>
+                    <li class="nav-item"><a class="nav-link" href="admin.html">Admin</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4 mb-5">
+        <div class="card shadow">
+            <div class="card-header text-white">
+                <h4><i class="fas fa-edit"></i> Form Survei Penggunaan Media Sosial</h4>
+                <p class="mb-0">Isilah data berikut dengan jujur. Data Anda akan dijaga kerahasiaannya dan hanya digunakan untuk penelitian.</p>
+            </div>
+            <div class="card-body">
+                <!-- Progress Bar -->
+                <div class="progress progress-bar-custom">
+                    <div class="progress-bar bg-success" id="formProgress" role="progressbar" style="width: 0%">0%</div>
+                </div>
+
+                <form id="surveyForm">
+                    <!-- ==================== BAGIAN A: DATA RESPONDEN ==================== -->
+                    <div class="form-section" data-section="A">
+                        <h5 class="section-title"><i class="fas fa-user-circle"></i> A. Data Responden</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nama <span class="text-muted">(opsional)</span></label>
+                                <input type="text" id="nama" class="form-control" placeholder="Contoh: Ahmad Riyadi">
+                                <small class="text-muted">Boleh diisi atau dikosongkan</small>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label required">Umur (Tahun)</label>
+                                <input type="number" id="umur" class="form-control" placeholder="Contoh: 21" min="15" max="100" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label required">Jenis Kelamin</label>
+                                <select id="jenis_kelamin" class="form-select" required>
+                                    <option value="">-- Pilih --</option>
+                                    <option value="Laki-laki">👨 Laki-laki</option>
+                                    <option value="Perempuan">👩 Perempuan</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label required">Pekerjaan</label>
+                            <input type="text" id="pekerjaan" class="form-control" placeholder="Contoh: Mahasiswa, Karyawan Swasta, Guru, Wirausaha, dll" required>
+                        </div>
+                    </div>
+
+                    <!-- ==================== BAGIAN B: PENGGUNAAN MEDIA SOSIAL ==================== -->
+                    <div class="form-section" data-section="B">
+                        <h5 class="section-title"><i class="fas fa-mobile-alt"></i> B. Penggunaan Media Sosial</h5>
+                        
+                        <div class="mb-3">
+                            <label class="form-label required">1. Media sosial yang paling sering Anda gunakan?</label>
+                            <select id="platform_utama" class="form-select" required>
+                                <option value="">-- Pilih satu --</option>
+                                <option value="Instagram">📷 Instagram</option>
+                                <option value="TikTok">🎵 TikTok</option>
+                                <option value="Facebook">📘 Facebook</option>
+                                <option value="X (Twitter)">🐦 X (Twitter)</option>
+                                <option value="YouTube">▶️ YouTube</option>
+                                <option value="Lainnya">📱 Lainnya</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label required">2. Berapa lama Anda menggunakan media sosial setiap hari?</label>
+                            <select id="durasi_harian" class="form-select" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="< 1 jam">⏱️ Kurang dari 1 jam</option>
+                                <option value="1–3 jam">⏱️ 1–3 jam</option>
+                                <option value="4–6 jam">⏱️ 4–6 jam</option>
+                                <option value="7–9 jam">⏱️ 7–9 jam</option>
+                                <option value="> 9 jam">⏱️ Lebih dari 9 jam</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label required">3. Tujuan utama Anda menggunakan media sosial?</label>
+                            <select id="tujuan_utama" class="form-select" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="Hiburan">🎬 Hiburan</option>
+                                <option value="Komunikasi">💬 Komunikasi</option>
+                                <option value="Pendidikan">📚 Pendidikan/Belajar</option>
+                                <option value="Bisnis">💼 Bisnis/Pemasaran</option>
+                                <option value="Berita/Informasi">📰 Berita/Informasi</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label required">4. Seberapa sering Anda membuka media sosial dalam sehari?</label>
+                            <select id="frekuensi" class="form-select" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="Sangat Jarang">🔴 Sangat Jarang (1-2 kali sehari)</option>
+                                <option value="Jarang">🟠 Jarang (3-5 kali sehari)</option>
+                                <option value="Kadang-kadang">🟡 Kadang-kadang (6-10 kali sehari)</option>
+                                <option value="Sering">🟢 Sering (11-20 kali sehari)</option>
+                                <option value="Sangat Sering">🔵 Sangat Sering (20+ kali sehari)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- ==================== BAGIAN C: DAMPAK PENGGUNAAN (INFORMASI & PRODUKTIVITAS) ==================== -->
+                    <div class="form-section" data-section="C">
+                        <h5 class="section-title"><i class="fas fa-chart-line"></i> C. Dampak Penggunaan (Informasi & Produktivitas)</h5>
+                        
+                        <div class="mb-4">
+                            <label class="form-label required">1. Apakah media sosial membantu Anda memperoleh informasi yang bermanfaat?</label>
+                            <div class="mt-2">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="bantu_informasi" value="Ya" required>
+                                    <label class="form-check-label">✅ Ya, sangat membantu</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="bantu_informasi" value="Tidak">
+                                    <label class="form-check-label">❌ Tidak, kurang membantu</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label required">2. Apakah media sosial mengganggu produktivitas Anda (belajar/bekerja)?</label>
+                            <div class="mt-2">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="ganggu_produktivitas" value="Ya" required>
+                                    <label class="form-check-label">⚠️ Ya, sering mengganggu</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="ganggu_produktivitas" value="Tidak">
+                                    <label class="form-check-label">✅ Tidak, masih bisa mengatur waktu</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ==================== BAGIAN D: PENGARUH TERHADAP KEHIDUPAN ==================== -->
+                    <div class="form-section" data-section="D">
+                        <h5 class="section-title"><i class="fas fa-smile"></i> D. Pengaruh Media Sosial Terhadap Kehidupan Anda</h5>
+                        
+                        <div class="mb-3">
+                            <label class="form-label required">Bagaimana pengaruh media sosial terhadap kehidupan Anda secara keseluruhan?</label>
+                            <select id="pengaruh_kehidupan" class="form-select" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="Sangat Positif">😍 Sangat Positif</option>
+                                <option value="Positif">😊 Positif</option>
+                                <option value="Netral">😐 Netral</option>
+                                <option value="Negatif">😞 Negatif</option>
+                                <option value="Sangat Negatif">😫 Sangat Negatif</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- ==================== BAGIAN E: SARAN & KOMENTAR (TAMBAHAN) ==================== -->
+                    <div class="form-section" data-section="E">
+                        <h5 class="section-title"><i class="fas fa-comment-dots"></i> E. Saran & Komentar (Opsional)</h5>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Apakah ada saran atau komentar mengenai penggunaan media sosial yang ingin Anda sampaikan?</label>
+                            <textarea id="saran" class="form-control" rows="4" placeholder="Contoh: Saya merasa media sosial membantu saya terhubung dengan teman, tapi kadang terlalu banyak distraksi..."></textarea>
+                            <small class="text-muted">Boleh dikosongkan jika tidak ada saran</small>
+                        </div>
+                    </div>
+
+                    <!-- Tombol Submit -->
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary btn-submit">
+                            <i class="fas fa-paper-plane"></i> Kirim Survei
+                        </button>
+                        <button type="reset" class="btn btn-secondary ms-2">
+                            <i class="fas fa-undo"></i> Reset Form
+                        </button>
+                    </div>
+
+                    <div id="message" class="mt-4"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p class="mb-0">&copy; 2025 Sistem Informasi Survei Penggunaan Media Sosial Berbasis Web</p>
+    </footer>
+
+    <script>
+        // ========== GANTI DENGAN URL DAN ANON KEY DARI SUPABASE ANDA ==========
+        const SUPABASE_URL = "https://dpuuciqpwvnqztlfziyp.supabase.co/rest/v1/";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRwdXVjaXFwd3ZucXp0bGZ6aXlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2NDMwNTUsImV4cCI6MjA5NjIxOTA1NX0.WPEYIjShMIOLd7Skc-K_BzXJmW7rIh2TKwO430ZUC0Y";
+        // =========================================================================
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Update progress bar saat form diisi
+        function updateProgress() {
+            const sections = document.querySelectorAll('.form-section');
+            let filledSections = 0;
+            
+            sections.forEach(section => {
+                const inputs = section.querySelectorAll('input[required], select[required], textarea[required]');
+                let allFilled = true;
+                inputs.forEach(input => {
+                    if (input.type === 'radio') {
+                        const name = input.name;
+                        const checked = document.querySelector(`input[name="${name}"]:checked`);
+                        if (!checked) allFilled = false;
+                    } else {
+                        if (!input.value.trim()) allFilled = false;
+                    }
+                });
+                if (allFilled) filledSections++;
+            });
+            
+            const percent = (filledSections / sections.length) * 100;
+            const progressBar = document.getElementById('formProgress');
+            progressBar.style.width = percent + '%';
+            progressBar.textContent = Math.round(percent) + '%';
+            
+            if (percent === 100) {
+                progressBar.classList.remove('bg-success');
+                progressBar.classList.add('bg-info');
+            } else {
+                progressBar.classList.remove('bg-info');
+                progressBar.classList.add('bg-success');
+            }
+        }
+
+        // Event listener untuk semua input
+        document.querySelectorAll('#surveyForm input, #surveyForm select, #surveyForm textarea').forEach(input => {
+            input.addEventListener('change', updateProgress);
+            input.addEventListener('keyup', updateProgress);
+        });
+
+        // Submit form
+        document.getElementById("surveyForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            // Ambil nilai radio button
+            const bantuInfo = document.querySelector('input[name="bantu_informasi"]:checked');
+            const gangguProd = document.querySelector('input[name="ganggu_produktivitas"]:checked');
+
+            // Validasi radio button
+            if (!bantuInfo || !gangguProd) {
+                document.getElementById("message").innerHTML = `<div class="alert alert-danger">⚠️ Harap isi semua pertanyaan yang bertanda * (bintang).</div>`;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+
+            // Data untuk tabel responden
+            const dataResponden = {
+                nama: document.getElementById("nama").value || null,
+                umur: parseInt(document.getElementById("umur").value),
+                jenis_kelamin: document.getElementById("jenis_kelamin").value,
+                pekerjaan: document.getElementById("pekerjaan").value
+            };
+
+            // Insert responden
+            const { data: respondenData, error: error1 } = await supabase
+                .from("responden")
+                .insert([dataResponden])
+                .select();
+
+            if (error1) {
+                console.error("Error responden:", error1);
+                document.getElementById("message").innerHTML = `<div class="alert alert-danger">❌ Gagal menyimpan data: ${error1.message}</div>`;
+                return;
+            }
+
+            const respondenId = respondenData[0].id;
+
+            // Data jawaban survei
+            const dataJawaban = {
+                responden_id: respondenId,
+                platform_utama: document.getElementById("platform_utama").value,
+                durasi_harian: document.getElementById("durasi_harian").value,
+                tujuan_utama: document.getElementById("tujuan_utama").value,
+                frekuensi: document.getElementById("frekuensi").value,
+                bantu_informasi: bantuInfo.value,
+                ganggu_produktivitas: gangguProd.value,
+                pengaruh_kehidupan: document.getElementById("pengaruh_kehidupan").value,
+                saran: document.getElementById("saran").value || null
+            };
+
+            const { error: error2 } = await supabase
+                .from("jawaban_survei")
+                .insert([dataJawaban]);
+
+            if (error2) {
+                console.error("Error jawaban:", error2);
+                document.getElementById("message").innerHTML = `<div class="alert alert-danger">❌ Gagal menyimpan survei: ${error2.message}</div>`;
+            } else {
+                document.getElementById("message").innerHTML = `
+                    <div class="alert alert-success text-center">
+                        <i class="fas fa-check-circle fa-2x mb-2"></i><br>
+                        <strong>✅ Terima kasih!</strong> Survei Anda berhasil disimpan.<br>
+                        Anda akan diarahkan ke halaman statistik.
+                    </div>
+                `;
+                document.getElementById("surveyForm").reset();
+                updateProgress();
+                setTimeout(() => window.location.href = "statistik.html", 3000);
+            }
+        });
+
+        // Inisialisasi progress
+        updateProgress();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

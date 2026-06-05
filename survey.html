@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Isi Survey | Media Survey</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body class="page-shell">
+  <nav class="navbar navbar-expand-lg bg-white fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html"><span class="brand-mark">MS</span>Media Survey</a>
+      <div class="ms-auto">
+        <a class="btn btn-outline-primary btn-sm" href="login.html">Admin</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container pb-5">
+    <div class="row justify-content-center">
+      <div class="col-xl-9">
+        <div class="mb-4">
+          <h1 class="fw-bold">Form Survey Penggunaan Media Sosial</h1>
+          <p class="muted mb-0">Isi data sesuai kebiasaan Anda. Kolom bertanda bintang wajib diisi.</p>
+        </div>
+
+        <form id="surveyForm" class="data-panel">
+          <section class="mb-4">
+            <h2 class="form-section-title">Section A - Respondent Information</h2>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label" for="nama">Name</label>
+                <input class="form-control" id="nama" name="nama" placeholder="Opsional">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label required" for="umur">Age</label>
+                <input class="form-control" id="umur" name="umur" type="number" min="10" max="100" required>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label required" for="jenis_kelamin">Gender</label>
+                <select class="form-select" id="jenis_kelamin" name="jenis_kelamin" required></select>
+              </div>
+              <div class="col-12">
+                <label class="form-label required" for="pekerjaan">Occupation</label>
+                <input class="form-control" id="pekerjaan" name="pekerjaan" required>
+              </div>
+            </div>
+          </section>
+
+          <section class="mb-4">
+            <h2 class="form-section-title">Section B - Social Media Usage</h2>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label required" for="platform_utama">Main social media platform</label>
+                <select class="form-select" id="platform_utama" name="platform_utama" required></select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label required" for="durasi_harian">Daily usage duration</label>
+                <select class="form-select" id="durasi_harian" name="durasi_harian" required></select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label required" for="tujuan_utama">Main purpose of usage</label>
+                <select class="form-select" id="tujuan_utama" name="tujuan_utama" required></select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label required" for="frekuensi">Usage frequency</label>
+                <select class="form-select" id="frekuensi" name="frekuensi" required></select>
+              </div>
+            </div>
+          </section>
+
+          <section class="mb-4">
+            <h2 class="form-section-title">Section C - Impact</h2>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label required" for="bantu_informasi">Information benefit</label>
+                <select class="form-select" id="bantu_informasi" name="bantu_informasi" required></select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label required" for="ganggu_produktivitas">Productivity impact</label>
+                <select class="form-select" id="ganggu_produktivitas" name="ganggu_produktivitas" required></select>
+              </div>
+            </div>
+          </section>
+
+          <section class="mb-4">
+            <h2 class="form-section-title">Section D - Life Impact</h2>
+            <label class="form-label required" for="pengaruh_kehidupan">Life impact</label>
+            <select class="form-select" id="pengaruh_kehidupan" name="pengaruh_kehidupan" required></select>
+          </section>
+
+          <section class="mb-4">
+            <h2 class="form-section-title">Section E - Suggestions</h2>
+            <label class="form-label" for="saran">Comments and feedback</label>
+            <textarea class="form-control" id="saran" name="saran" rows="4" placeholder="Tulis saran atau pengalaman Anda"></textarea>
+          </section>
+
+          <div class="d-flex justify-content-end gap-2">
+            <button class="btn btn-light" type="reset">Reset</button>
+            <button class="btn btn-primary" id="submitBtn" type="submit"><i class="bi bi-send me-2"></i>Submit Survey</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/supabaseClient.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/survey.js"></script>
+</body>
+</html>
