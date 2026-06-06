@@ -7,8 +7,22 @@ fillSelect("bantu_informasi", OPTIONS.benefits);
 fillSelect("ganggu_produktivitas", OPTIONS.productivity);
 fillSelect("pengaruh_kehidupan", OPTIONS.impacts);
 
+function resetSurveyForm() {
+  const form = document.getElementById("surveyForm");
+  if (form) form.reset();
+  fillSelect("jenis_kelamin", OPTIONS.genders);
+  fillSelect("platform_utama", OPTIONS.platforms);
+  fillSelect("durasi_harian", OPTIONS.durations);
+  fillSelect("tujuan_utama", OPTIONS.purposes);
+  fillSelect("frekuensi", OPTIONS.frequencies);
+  fillSelect("bantu_informasi", OPTIONS.benefits);
+  fillSelect("ganggu_produktivitas", OPTIONS.productivity);
+  fillSelect("pengaruh_kehidupan", OPTIONS.impacts);
+}
+
 $("#surveyForm")?.addEventListener("submit", async (event) => {
   event.preventDefault();
+  const formElement = event.currentTarget;
 
   if (!isConfigured()) {
     showAlert("Supabase belum dikonfigurasi. Isi SUPABASE_URL dan SUPABASE_ANON_KEY di assets/js/config.js.", "warning");
@@ -19,7 +33,7 @@ $("#surveyForm")?.addEventListener("submit", async (event) => {
   setLoading(button, true, "Submitting...");
 
   try {
-    const form = new FormData(event.currentTarget);
+    const form = new FormData(formElement);
     const respondent = {
       nama: form.get("nama")?.trim() || null,
       umur: Number(form.get("umur")),
@@ -50,15 +64,7 @@ $("#surveyForm")?.addEventListener("submit", async (event) => {
     const { error: answerError } = await supabaseClient.from("jawaban_survei").insert(answer);
     if (answerError) throw answerError;
 
-    event.currentTarget.reset();
-    fillSelect("jenis_kelamin", OPTIONS.genders);
-    fillSelect("platform_utama", OPTIONS.platforms);
-    fillSelect("durasi_harian", OPTIONS.durations);
-    fillSelect("tujuan_utama", OPTIONS.purposes);
-    fillSelect("frekuensi", OPTIONS.frequencies);
-    fillSelect("bantu_informasi", OPTIONS.benefits);
-    fillSelect("ganggu_produktivitas", OPTIONS.productivity);
-    fillSelect("pengaruh_kehidupan", OPTIONS.impacts);
+    resetSurveyForm();
     showAlert("Terima kasih. Jawaban survey berhasil disimpan.", "success");
   } catch (error) {
     showAlert(error.message || "Gagal menyimpan survey.", "danger");
