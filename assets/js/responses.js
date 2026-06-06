@@ -56,7 +56,7 @@ function renderTable() {
       <td>${row.durasi_harian}</td>
       <td><span class="badge badge-soft">${row.pengaruh_kehidupan}</span></td>
       <td class="text-end">
-        <button class="btn btn-sm btn-outline-primary" data-action="edit" data-id="${row.id}" title="Edit"><i class="bi bi-pencil"></i></button>
+         <button class="btn btn-sm btn-outline-primary" type="button" data-action="edit" data-id="${row.id}" onclick="openEdit('${row.id}')" title="Edit"><i class="bi bi-pencil"></i></button>
         <button class="btn btn-sm btn-outline-danger" data-action="delete" data-id="${row.id}" data-responden="${row.responden_id}" title="Delete"><i class="bi bi-trash"></i></button>
       </td>
     </tr>
@@ -76,7 +76,7 @@ function renderPagination() {
 }
 
 function openEdit(id) {
-  const row = allResponses.find((item) => item.id === id);
+  const row = allResponses.find((item) => String(item.id) === String(id));
   if (!row) return;
 
   Object.entries(row).forEach(([key, value]) => {
@@ -165,7 +165,7 @@ async function initResponses() {
 
   $("#logoutBtn")?.addEventListener("click", logout);
   initializeResponseFormOptions();
-  editModal = new bootstrap.Modal("#editModal");
+   editModal = new bootstrap.Modal(document.getElementById("editModal"));
 
   $("#searchInput").addEventListener("input", () => {
     currentPage = 1;
@@ -183,7 +183,7 @@ async function initResponses() {
     renderPagination();
   });
   $("#responsesTable").addEventListener("click", (event) => {
-    const button = event.target.closest("button");
+    const button = event.target.closest("[data-action]");
     if (!button) return;
     if (button.dataset.action === "edit") openEdit(button.dataset.id);
     if (button.dataset.action === "delete") deleteResponse(button.dataset.id, button.dataset.responden);
