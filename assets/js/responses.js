@@ -47,20 +47,36 @@ function renderTable() {
   $("#resultInfo").textContent = `${filteredResponses.length} results`;
 
   $("#responsesTable").innerHTML = rows.map((row) => `
-    <tr>
-      <td>${row.nama || "Anonymous"}</td>
-      <td>${row.umur}</td>
-      <td>${row.jenis_kelamin}</td>
-      <td>${row.pekerjaan}</td>
-      <td>${row.platform_utama}</td>
-      <td>${row.durasi_harian}</td>
-      <td><span class="badge badge-soft">${row.pengaruh_kehidupan}</span></td>
-      <td class="text-end">
-         <button class="btn btn-sm btn-outline-primary" type="button" data-action="edit" data-id="${row.id}" onclick="openEdit('${row.id}')" title="Edit"><i class="bi bi-pencil"></i></button>
-        <button class="btn btn-sm btn-outline-danger" data-action="delete" data-id="${row.id}" data-responden="${row.responden_id}" title="Delete"><i class="bi bi-trash"></i></button>
-      </td>
-    </tr>
-  `).join("") || `<tr><td colspan="8"><div class="empty-state">Tidak ada data sesuai filter.</div></td></tr>`;
+<tr>
+  <td>${row.nama || "Anonymous"}</td>
+  <td>${row.umur}</td>
+  <td>${row.jenis_kelamin}</td>
+  <td>${row.pekerjaan}</td>
+  <td>${row.platform_utama}</td>
+  <td>${row.durasi_harian}</td>
+  <td>${row.tujuan_utama}</td>
+  <td>${row.frekuensi}</td>
+  <td>${row.bantu_informasi}</td>
+  <td>${row.ganggu_produktivitas}</td>
+  <td><span class="badge badge-soft">${row.pengaruh_kehidupan}</span></td>
+  <td>${row.saran || "-"}</td>
+  <td>${new Date(row.created_at).toLocaleString("id-ID")}</td>
+  <td class="text-end">
+    <button class="btn btn-sm btn-outline-primary" data-action="edit" data-id="${row.id}" title="Edit">
+      <i class="bi bi-pencil"></i>
+    </button>
+    <button class="btn btn-sm btn-outline-danger" data-action="delete" data-id="${row.id}" data-responden="${row.responden_id}" title="Delete">
+      <i class="bi bi-trash"></i>
+    </button>
+  </td>
+</tr>
+`).join("") || `
+<tr>
+  <td colspan="14">
+    <div class="empty-state">Tidak ada data sesuai filter.</div>
+  </td>
+</tr>
+`;
 }
 
 function renderPagination() {
