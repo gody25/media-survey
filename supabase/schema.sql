@@ -31,6 +31,11 @@ create index if not exists idx_jawaban_created_at on public.jawaban_survei(creat
 create index if not exists idx_jawaban_responden_id on public.jawaban_survei(responden_id);
 create index if not exists idx_jawaban_platform on public.jawaban_survei(platform_utama);
 
+-- Optional but recommended for live dashboard updates.
+-- If Supabase says a table is already a member of the publication, ignore that notice.
+alter publication supabase_realtime add table public.responden;
+alter publication supabase_realtime add table public.jawaban_survei;
+
 alter table public.responden enable row level security;
 alter table public.jawaban_survei enable row level security;
 

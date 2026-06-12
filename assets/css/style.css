@@ -114,6 +114,28 @@ a {
   padding: 1.5rem;
 }
 
+.realtime-clock {
+  background: #fff;
+  border: 1px solid var(--ms-line);
+  border-radius: var(--ms-radius);
+  box-shadow: 0 10px 30px rgba(23, 32, 42, .05);
+  min-width: 220px;
+  padding: .8rem 1rem;
+}
+
+.clock-time {
+  color: var(--ms-brand-dark);
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.clock-date {
+  color: var(--ms-muted);
+  font-size: .82rem;
+  margin-top: .2rem;
+}
+
 .feature-icon {
   align-items: center;
   background: #ecfdf5;
